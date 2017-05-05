@@ -1,36 +1,27 @@
 //Function to replace in a string
-module.exports = function(str, obj, opt)
+module.exports = function(str, obj, prefix, suffix)
 {
   //Check the object
   if(typeof obj === 'undefined'){ return str; }
 
-  //Check the options
-  if(typeof opt === 'undefined'){ var opt = {}; }
+  //Check the prefix value
+  if(typeof prefix !== 'string'){ var prefix = '{'; }
 
-  //Check the prefix
-  if(typeof opt.prefix === 'undefined'){ opt.prefix = ''; }
+  //Check the suffix value
+  if(typeof suffix !== 'string'){ var suffix = '}'; }
 
-  //Check the suffix
-  if(typeof opt.suffix === 'undefined'){ opt.suffix = ''; }
-
-  //Get all the keys
-  var keys = Object.keys(obj);
-
-  //Read all the keys
-  for(var i = 0; i < keys.length; i++)
-  {
-    //Get the key
-    var key = keys[i];
-
-    //Get the value
+  //Iterate over all the keys
+  Object.keys(obj).forEach(function(key)
+	{
+		//Get the value
     var value = obj[key];
 
     //Create the RegExp
-    var exp = new RegExp(opt.prefix + key + opt.suffix, 'g');
+    var exp = new RegExp(prefix + key + suffix, 'g');
 
     //Replace the value
     str = str.replace(exp, value);
-  }
+	});
 
   //Return the string
   return str;
